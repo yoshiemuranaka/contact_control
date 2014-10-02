@@ -12,6 +12,7 @@ before do
   content_type :json
 end
 
+
 get("/categories") do
   Category.all.to_json
 end
