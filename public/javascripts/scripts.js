@@ -20,8 +20,15 @@ var ContactCollection = Backbone.Collection.extend({
 	url: '/contacts'
 })
 
+///maybe i should set a filter here to only get contacts with particular category id?
 var allContacts = new ContactCollection()
-allContacts.fetch()
+
+//i would like to filter my collection here, but i don't think .where method is working//something like var friendsCollection = new ContactCollection({category_id: 1})
+
+var friends = allContacts.where({category_id: 1})
+var friendsCollection = new ContactCollection(friends)
+////////////////////////////
+
 
 var ListView = Backbone.View.extend({
 	initialize: function(){
@@ -93,6 +100,41 @@ var ContactView = Backbone.View.extend({
 	}
 
 })
+
+
+var FormView = Backbone.View.extend({
+	events: {
+		"click button.add" : "create"
+	},
+
+	create: function(){
+		var name = this.$el.find('input.name').val();
+		var email = this.$el.find('input.email').val();
+		var address = this.$el.find('input.address').val();
+		var phone = this.$el.find('input.phone').val();
+		var picture = this.$el.find('input.picture').val();
+		var category = this.$el.find('select.category').val();
+
+		this.collection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
+
+		// if (this.$el('input.name').val()== ""){
+		// 	alert('missing field')
+		// //i am filtering my input here to create new collection instances for the specified collection
+		// }else if (category == 'Friends'){
+		// 	allContacts.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
+		// // }else if (category == 'Family')
+		// }else{
+		// 	console.log('im here')
+		// };
+
+	}
+
+});
+
+var formView = new FormView({ el: $('.form'), collection: allContacts})
+
+
+
 
 
 
