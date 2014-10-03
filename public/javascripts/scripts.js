@@ -15,21 +15,31 @@ var ContactModel = Backbone.Model.extend({
 
 });
 
-//I DON'T KNOW HOW TO USE COLLECTIONS
-//COLLECTION -- for different Categories
-var FriendsCollection = Backbone.Collection.extend({
-	url: "/categories/1",
-	model: ContactModel
-})
-
-var FrenemiesCollection = Backbone.Collection.extend({
-	// url: "/categories/2",
+var ContactCollection = Backbone.Collection.extend({
 	model: ContactModel,
+	url: '/contacts'
 })
 
-var friends = new FriendsCollection();
-var frenemies = new FrenemiesCollection();
-// // var work = new CategoryCollection();
+var allContacts = new ContactCollection()
+allContacts.fetch()
+
+var ListView = Backbone.View.extend({
+	initialize: function(){
+		this.listenTo(this.collection, 'add', this.addOne)
+		this.collection.fetch()
+	},
+
+	addOne: function(contact){
+		var contactView = new ContactView({model: contact})
+		contactView.render();
+		this.$el.append(contactView.el)
+	}
+
+})
+
+var listView = new ListView({ collection: allContacts, el: $('ul.friends') });
+
+
 
 var ContactView = Backbone.View.extend({
 	
@@ -68,7 +78,7 @@ var ContactView = Backbone.View.extend({
 	initialize: function(){
 		console.log('ContactView Initialized')
 		
-		//I THINK THIS IS WHERE THE VIEW WILL AUTOMATICALLY RE-RENDER ITSELF WHEN THE MODEL IS CHANGED
+		//THIS IS WHERE THE CONTACT VIEW WILL AUTOMATICALLY RE-RENDER ITSELF WHEN THE MODEL IS CHANGED
 
 		this.listenTo(this.model, "change", this.render);
 		this.listenTo(this.model, "destroy remove", this.remove);
@@ -84,30 +94,6 @@ var ContactView = Backbone.View.extend({
 
 })
 
-
-//I REALLY DON'T GET THIS
-// var FriendsView = Backbone.View.extend({
-
-// 	initialize: function(){
-// 		// this.listenTo(this.friends, "add", this.addOne);
-// 		friends.fetch()
-// 	},
-
-//   addOne: function(contact) {
-//   	// console.log(item)
-//     	var contactView = new ContactView({model: contact});
-//   	  contactView.render();
-//   	  this.$el.append(contactView.el);
-//   }
-
-// });
-
-
-///// BUILDING MY VIEWS 
-
-// var friendList = new FriendsView({collection: friends, el: $('ul.friends') });
-
-// friendList.render()
 
 
 function addContact(name, age, address, phone_number, picture, category_id, email){
@@ -131,8 +117,8 @@ function addContact(name, age, address, phone_number, picture, category_id, emai
 
 	//IF THE CONTACT CAT_ID IS 1, WILL PUSH INTO FRIENDS COLLECTION AND APPEND TO APPROPRIATE UL
 	if (contactModel.attributes.category_id == 1){
-		friends.add(contactModel)	
-		$('ul.friends').append(contactView.el);
+		friends.create(contactModel)	
+		// $('ul.friends').append(contactView.el);
 	}else if (contactModel.attributes.category_id == 2){
 		frenemies.add(contactModel)
 		$('ul.frenemies').append(contactView.el)
