@@ -4,12 +4,59 @@
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone.js"></script>
-  <script type='text/javascript' src='/javascripts/scripts.js'></script>
+  
 
 </head>
 <body>
 
+	<header><h2>Contacts</h2></header>
 
+	<div class='form'>
+			<input class='name' placeholder='Name'></input>
+			<input class='age' placeholder='Age'></input>
+			<input class='address' placeholder='Address'></input>
+			<input class='phone' placeholder='Phone Number'></input>
+			<input class='picture' placeholder='Image URL'></input>
+			<select class='category'>
+				<option class='friends'>Friends</option>
+				<option class='family'>Family</option>
+				<option class='work'>Work</option>
+			</select>
+			<button class='add'>Save</button>
+		</div>
 
+	<main>
+
+		<ul class='friends'></ul>
+		<ul class='family'></ul>
+		<ul class='work'></ul>
+
+	</main>
+
+	<script id="template" type="text/template">
+ 		
+ 		<p><%= name %></p>
+ 		<button class='view'>View</button>
+		<button class='edit'>Edit</button>
+ 		<button class='delete'>Delete</button>
+ 		
+ 		<div style='display:none;' class='view-details'>
+ 			<p><%= age %>, <%=category_id %></p>
+ 			<p><%= address %></p>
+ 			<p><%= phone_number %></p>
+ 			<p><%= email %></p>
+ 		</div>
+
+ 		<div style='display:none;' class='edit-details'>
+ 		
+ 			<input></input>
+
+ 		</div>
+
+	</script>
+
+	<script type='text/javascript' src='/javascripts/scripts.js'></script>
 </body>
 </html>
+
+
