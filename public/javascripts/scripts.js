@@ -5,33 +5,55 @@ var ContactModel = Backbone.Model.extend({
 
 	defaults: {
 		name: "",
-		age: 0,
+		email: "",
 		address: "",
 		phone_number: "",
 		picture: "",
-		category_id: 1,
-		email: ""
+		category_id: 1
 	}
 
 });
 
 var ContactCollection = Backbone.Collection.extend({
 	model: ContactModel,
-	url: '/contacts'
+	url: '/contacts',
+	
+	getContactsIn: function(category_id){
+		this.fetch()
+		var filtered = this.filter(function(contact){
+			return contact.get("category_id") == category_id
+		})
+		return new ContactCollection(filtered)
+	}
+
 })
 
 ///maybe i should set a filter here to only get contacts with particular category id?
 var allContacts = new ContactCollection()
+var friendsCollection = allContacts.getContactsIn(1)
+var frenemiesCollection = allContacts.getContactsIn(2)
+
+
+
+
+
+// var friendsCollection = new ContactCollection(allContacts.where({category_id: 2}))
 
 //i would like to filter my collection here, but i don't think .where method is working//something like var friendsCollection = new ContactCollection({category_id: 1})
 
-var friends = allContacts.where({category_id: 1})
-var friendsCollection = new ContactCollection(friends)
+
+// var friends = _.where(allContacts.responseJSON, {category_id: 1})
+// var frenemies = _.where(allContacts.responseJSON, {category_id: 2})
+// // console.log(typeof friends)
+// // console.log(frenemies)
+// var friendsCollection = new ContactCollection(friends)
+// var frenemiesCollection = new ContactCollection(frenemies)
 ////////////////////////////
 
 
 var ListView = Backbone.View.extend({
 	initialize: function(){
+		console.log('list view Initialized')
 		this.listenTo(this.collection, 'add', this.addOne)
 		this.collection.fetch()
 	},
@@ -44,7 +66,9 @@ var ListView = Backbone.View.extend({
 
 })
 
-var listView = new ListView({ collection: allContacts, el: $('ul.friends') });
+//HERE I WOULD MAKE LIST VIEWS FOR EACH COLLECTION CATEGORY
+var friendsView = new ListView({ collection: friendsCollection, el: $('ul.friends') });
+
 
 
 
@@ -95,7 +119,6 @@ var ContactView = Backbone.View.extend({
 		},
 
 	render: function(){
-		console.log(this.template)
 		this.$el.html( this.template(this.model.attributes) );
 	}
 
@@ -115,7 +138,7 @@ var FormView = Backbone.View.extend({
 		var picture = this.$el.find('input.picture').val();
 		var category = this.$el.find('select.category').val();
 
-		this.collection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
+		this.collection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 2})
 
 		// if (this.$el('input.name').val()== ""){
 		// 	alert('missing field')
@@ -138,37 +161,37 @@ var formView = new FormView({ el: $('.form'), collection: allContacts})
 
 
 
-function addContact(name, age, address, phone_number, picture, category_id, email){
+// function addContact(name, age, address, phone_number, picture, category_id, email){
 
-	//CREATING A NEW CONTACT MODEL
-	var contactModel = new ContactModel({
-		name: name, 
-		age: age, 
-		address: address, 
-		phone_number: phone_number, 
-		picture: picture, 
-		category_id: category_id, 
-		email: email})
+// 	//CREATING A NEW CONTACT MODEL
+// 	var contactModel = new ContactModel({
+// 		name: name, 
+// 		age: age, 
+// 		address: address, 
+// 		phone_number: phone_number, 
+// 		picture: picture, 
+// 		category_id: category_id, 
+// 		email: email})
 
-	//AJAX CALL TO CREATE CONTACT IN DATABASE
-	contactModel.save()
+// 	//AJAX CALL TO CREATE CONTACT IN DATABASE
+// 	contactModel.save()
 
-	//CREATING A CONTACT VIEW W/ NEW MODEL
-	var contactView = new ContactView ({model: contactModel});
+// 	//CREATING A CONTACT VIEW W/ NEW MODEL
+// 	var contactView = new ContactView ({model: contactModel});
 	
 
-	//IF THE CONTACT CAT_ID IS 1, WILL PUSH INTO FRIENDS COLLECTION AND APPEND TO APPROPRIATE UL
-	if (contactModel.attributes.category_id == 1){
-		friends.create(contactModel)	
-		// $('ul.friends').append(contactView.el);
-	}else if (contactModel.attributes.category_id == 2){
-		frenemies.add(contactModel)
-		$('ul.frenemies').append(contactView.el)
-	}else{
-		console.log('cannot find proper cat_id')
-	}
+// 	//IF THE CONTACT CAT_ID IS 1, WILL PUSH INTO FRIENDS COLLECTION AND APPEND TO APPROPRIATE UL
+// 	if (contactModel.attributes.category_id == 1){
+// 		friends.create(contactModel)	
+// 		// $('ul.friends').append(contactView.el);
+// 	}else if (contactModel.attributes.category_id == 2){
+// 		frenemies.add(contactModel)
+// 		$('ul.frenemies').append(contactView.el)
+// 	}else{
+// 		console.log('cannot find proper cat_id')
+// 	}
 
-};
+// };
 
 
 
