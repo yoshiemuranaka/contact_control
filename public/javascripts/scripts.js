@@ -1,4 +1,4 @@
-//**MODEL**------------------------------------------------
+//**MODEL**----------------------------------------------
 
 var ContactModel = Backbone.Model.extend({
 	
@@ -19,51 +19,43 @@ var ContactModel = Backbone.Model.extend({
 
 });
 
-var CategoryModel = Backbone.Model.extend({
 
-	urlRoot: '/categories',
+//**COLLECTION**-----------------------------------------
 
-	initialize: function(category_id){
-		console.log('category model initialized')
-		var collection = this.set({id: category_id, contacts: new ContactCollection()})
-		collection.fetch()
-		return collection
-	}
-
-});
-
-
-
-//**COLLECTION**------------------------------------------
 
 var ContactCollection = Backbone.Collection.extend({
 	
 	model: ContactModel,
 	url: '/contacts',
+	
+	initialize: function(category_id){
+		console.log("contact collection Initialized")
+		this.category_id = category_id
+		//i want this collection to listen to changes to my Contact Model cat_id to switch from collection to collection
+		this.on("change:category_id", this.updateCat)
+	
+	},
+
+	parse: function(response){
+
+		var filtered = _.where(response, {category_id: this.category_id})
+		return filtered		
+
+	},
+
+	updateCat: function(){
+		this.fetch()
+		console.log('contact updated')
+	}
 
 })
 
-var CategoryCollection = Backbone.Collection.extend({
 
-	url: '/categories',
-	model: CategoryModel
-
-})
-
-// var allContacts = new ContactCollection()
-
-// var friendsCollection = new CategoryCollection({id: 1})
-// var frenemiesCollection = new CategoryCollection({id: 2})
-
-var friendsModel = new CategoryModel(1)
-var frenemiesModel = new CategoryModel(2)
-
-var friendsCollection = new CategoryCollection({model: friendsModel})
+var friendsCollection = new ContactCollection(1)
+var frenemiesCollection = new ContactCollection(2)
 
 
-
-
-//**VIEWS**------------------------------------------------
+//**VIEWS**----------------------------------------------
 
 var ContactView = Backbone.View.extend({
 	
@@ -96,6 +88,7 @@ var ContactView = Backbone.View.extend({
 			category_id: this.$el.find('input.categoryUpdate').val()
 		})
 		this.model.save()
+
 	},
 
 	initialize: function(){
@@ -103,8 +96,6 @@ var ContactView = Backbone.View.extend({
 
 		this.listenTo(this.model, "change", this.render);
 		this.listenTo(this.model, "destroy remove", this.remove);
-		
-		this.render()
 
 		},
 
@@ -133,19 +124,14 @@ var ListView = Backbone.View.extend({
 
 })
 
-// var contactsView = new ListView({collection: allContacts, el: $('ul.friends')})
-
 var friendsView = new ListView({collection: friendsCollection, el: $('ul.friends')})
+
+var frenemiesView = new ListView({collection: frenemiesCollection, el:$('ul.frenemies')})
+
 
 //**
 
-
 var FormView = Backbone.View.extend({
-	
-	initialize: function(){
-		var friendsCollection = friendsCollection
-		var frenemiesCollection = frenemiesCollection
-	},
 
 	events: {
 		"click button.add" : "create"
@@ -159,32 +145,22 @@ var FormView = Backbone.View.extend({
 		var picture = this.$el.find('input.picture').val();
 		var category = this.$el.find('select.category').val();
  	
-
-		if (category == 'Friends'){
-			friendsCollection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
+		if (name == "" || email == ""){
+			alert('missing field')
+		}else if(category == 'Friends'){
+			this.collection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
 		}else{
-			console.log('im here')
+			console.log('nothing happened')
 		}
 
+		this.$el.find('input').val("")
 
-
-		// if (this.$el('input.name').val()== ""){
-		// 	alert('missing field')
-		//i am filtering my input here to create new collection instances for the specified collection
-	// 	 if (category == 'Friends'){
-	// 		this.collection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
-	// 	// }else if (category == 'Family')
-	// 	}else{
-	// 		console.log('im here')
-	// 	};
-	// 	$('input').val("")
 	}
 
 });
 
-// var formView = new FormView({ el: $('.form'), collection: allContacts})
 
-var formView = new FormView({el: $('.form')})
+var formView = new FormView({el: $('.form'), collection: friendsCollection})
 
 
 
