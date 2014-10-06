@@ -7,8 +7,9 @@ Category.delete_all
 Contact.delete_all
 
 friends = Category.create(name: "friends")
-frenemies = Category.create(name: "frenemies")
+family = Category.create(name: "family")
+work = Category.create(name: "work")
 
-Contact.create(name: "Sean", category_id: friends.id)
-Contact.create(name: "Jeff", category_id: friends.id)
-Contact.create(name: "Neel", category_id: frenemies.id)
+# Contact.create(name: "Sean", category_id: friends.id)
+# Contact.create(name: "Jeff", category_id: friends.id)
+# Contact.create(name: "Neel", category_id: frenemies.id)

@@ -2,7 +2,7 @@
 <head>
 	<title>Contact List</title>
 	
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
@@ -12,37 +12,54 @@
 
 </head>
 <body>
+<div class='container'>
 
-	<header><h2>Contacts</h2></header>
+	<div class='row'>
+		<header class='col-md-10'><h2>Contacts</h2></header>
+	</div> 
 
-	<div class='form'>
-			<input class='name' placeholder='Name'></input>
-			<input class='email' placeholder='Email'></input>
-			<input class='address' placeholder='Address'></input>
-			<input class='phone' placeholder='Phone Number'></input>
-			<input class='picture' placeholder='Image URL'></input>
-			<select class='category'>
-				<option class='friends'>Friends</option>
-				<option class='family'>Family</option>
-				<option class='work'>Work</option>
-			</select>
-			<button class='add'>Create</button>
+	<div class='row'>
+		<div class='form form-group col-md-10'>
+				<input class='name' placeholder='Name'></input>
+				<input class='email' placeholder='Email'></input>
+				<input class='address' placeholder='Address'></input>
+				<input class='phone' placeholder='Phone Number'></input>
+				<input class='picture' placeholder='Image URL'></input>
+				<select class='category'>
+					<option class='friends'>Friends</option>
+					<option class='family'>Family</option>
+					<option class='work'>Work</option>
+				</select>
+				<span class='glyphicon glyphicon-plus'></span>
+			</div>
+	</div>
+	
+	<main class='row'>
+		<div class='col-md-4'>
+			<header><h4>Friends</h4></header>
+			<ul class='list-group friends'></ul>
 		</div>
 
-	<main>
-
-		<ul class='friends'></ul>
-		<ul class='frenemies'></ul>
-		<!-- <ul class='work'></ul> -->
-
+		<div class='col-md-4'>
+			<header><h4>Family</h4></header>
+			<ul class='list-group family'></ul>
+		</div>
+		
+		<div class='col-md-4'>
+			<header><h4>Work</h4></header>
+			<ul class='list-group work'></ul>
+		</div>
 	</main>
+
+
+</div>
 
 	<script id="template" type="text/template">
  		
  		<p><%= name %></p>
- 		<button class='view'>View</button>
-		<button class='edit'>Edit</button>
- 		<button class='delete'>Delete</button>
+ 		<span class='glyphicon glyphicon-eye-open'></span>
+		<span class='glyphicon glyphicon-pencil'></span>
+ 		<span class='glyphicon glyphicon-trash'></span></button>
  		
  		<div style='display:none;' class='view-details'>
  			<p><%=category_id %></p>
@@ -58,6 +75,8 @@
  			<button class='update'>Update</button>
 
  		</div>
+
+
 
 	</script>
 

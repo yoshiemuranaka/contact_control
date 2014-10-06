@@ -52,7 +52,8 @@ var ContactCollection = Backbone.Collection.extend({
 
 
 var friendsCollection = new ContactCollection(1)
-var frenemiesCollection = new ContactCollection(2)
+var familyCollection = new ContactCollection(2)
+var workCollection = new ContactCollection(3)
 
 
 //**VIEWS**----------------------------------------------
@@ -61,12 +62,16 @@ var ContactView = Backbone.View.extend({
 	
 	tagName: "li",
 
+	attributes: {
+		class: "list-group-item"
+	},
+
 	template: _.template( $("#template").html() ),
 
 	events: {
-		"click button.view" :"viewContact",
-		"click button.edit"	:"editContact",
-		"click button.delete" :"deleteContact",
+		"click .glyphicon-eye-open" :"viewContact",
+		"click .glyphicon-pencil"	:"editContact",
+		"click .glyphicon-trash" :"deleteContact",
 		"click button.update" :"updateContact"
 	},
 
@@ -126,15 +131,22 @@ var ListView = Backbone.View.extend({
 
 var friendsView = new ListView({collection: friendsCollection, el: $('ul.friends')})
 
-var frenemiesView = new ListView({collection: frenemiesCollection, el:$('ul.frenemies')})
+var familyView = new ListView({collection: familyCollection, el:$('ul.family')})
+var workView = new ListView({collection: workCollection, el: $('ul.work')})
 
 
 //**
 
 var FormView = Backbone.View.extend({
 
+	initialize: function(){
+		var friendsCollection = friendsCollection
+		var familyCollection = familyCollection
+		var workCollection = workCollection 
+	},
+
 	events: {
-		"click button.add" : "create"
+		"click .glyphicon-plus" : "create"
 	},
 
 	create: function(){
@@ -145,12 +157,18 @@ var FormView = Backbone.View.extend({
 		var picture = this.$el.find('input.picture').val();
 		var category = this.$el.find('select.category').val();
  	
+
+
 		if (name == "" || email == ""){
 			alert('missing field')
 		}else if(category == 'Friends'){
-			this.collection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
+			friendsCollection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
+		}else if(category == 'Family'){
+			familyCollection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 2})
+		}else if(category == 'Work'){
+			workCollection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 3})
 		}else{
-			console.log('nothing happened')
+			console.log('ERROR')
 		}
 
 		this.$el.find('input').val("")
@@ -160,7 +178,7 @@ var FormView = Backbone.View.extend({
 });
 
 
-var formView = new FormView({el: $('.form'), collection: friendsCollection})
+var formView = new FormView({el: $('.form')})
 
 
 
