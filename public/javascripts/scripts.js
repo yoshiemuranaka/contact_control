@@ -88,10 +88,42 @@ var ContactView = Backbone.View.extend({
 	},
 
 	updateContact: function(){
-		this.model.set({
-			name: this.$el.find('input.nameUpdate').val(),
-			category_id: this.$el.find('input.categoryUpdate').val()
-		})
+		var name = this.$el.find('input.nameUpdate').val()
+		var address = this.$el.find('input.addressUpdate').val()
+		var phone = this.$el.find('input.phoneUpdate').val()
+		var email = this.$el.find('input.emailUpdate').val()
+		var picture = this.$el.find('input.pictureUpdate').val()
+
+		if(name != ""){
+			this.model.set({
+			name: name
+			})
+		};
+
+		if(address != ""){
+			this.model.set({
+			address: address
+			})
+		};
+
+		if(phone != ""){
+			this.model.set({
+			phone: phone
+			})
+		};
+
+		if(email != ""){
+			this.model.set({
+			email: email
+			})
+		};
+
+		if(picture != ""){
+			this.model.set({
+			picture: picture
+			})
+		};
+
 		this.model.save()
 
 	},
@@ -181,6 +213,11 @@ var FormView = Backbone.View.extend({
 var formView = new FormView({el: $('.form')})
 
 
-
+$('li.list-group-item').draggable();
+$('ul.list-group').droppable({
+	drop: function(){
+		console.log(this)
+	}
+})
 
 

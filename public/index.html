@@ -3,8 +3,8 @@
 	<title>Contact List</title>
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+	<script src='https://code.jquery.com/jquery-2.1.1.min.js'></script>
+	<script src='https://code.jquery.com/ui/1.11.1/jquery-ui.min.js'></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone.js"></script>
 
@@ -62,16 +62,19 @@
  		<span class='glyphicon glyphicon-trash'></span></button>
  		
  		<div style='display:none;' class='view-details'>
- 			<p><%=category_id %></p>
- 			<p><%= address %></p>
- 			<p><%= phone_number %></p>
- 			<p><%= email %></p>
+ 			<!--<p><%=category_id %></p>-->
+ 			<p>Address: <%= address %></p>
+ 			<p>Phone: <%= phone_number %></p>
+ 			<p>Email: <%= email %></p>
  		</div>
 
  		<div style='display:none;' class='edit-details'>
  		
  			<input class='nameUpdate' placeholder='name'></input>
- 			<input class='categoryUpdate' placeholder='category'></input>
+ 			<input class='addressUpdate' placeholder='address'></input>
+ 			<input class='phoneUpdate' placeholder='phone'></input>
+ 			<input class='emailUpdate' placeholder='email'></input>
+ 			<input class='pictureUpdate' placeholder='picture'></input>
  			<button class='update'>Update</button>
 
  		</div>
