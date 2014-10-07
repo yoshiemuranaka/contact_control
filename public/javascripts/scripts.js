@@ -213,11 +213,11 @@ var FormView = Backbone.View.extend({
 var formView = new FormView({el: $('.form')})
 
 
-$('li.list-group-item').draggable();
-$('ul.list-group').droppable({
-	drop: function(){
-		console.log(this)
-	}
-})
+// $('li.list-group-item').draggable();
+// $('ul.list-group').droppable({
+// 	drop: function(){
+// 		console.log(this)
+// 	}
+// })
 
 
