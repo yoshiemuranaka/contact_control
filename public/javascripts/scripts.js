@@ -108,7 +108,7 @@ var ContactView = Backbone.View.extend({
 
 		if(phone != ""){
 			this.model.set({
-			phone: phone
+			phone_number: phone
 			})
 		};
 
@@ -194,11 +194,11 @@ var FormView = Backbone.View.extend({
 		if (name == "" || email == ""){
 			alert('missing field')
 		}else if(category == 'Friends'){
-			friendsCollection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 1})
+			friendsCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 1})
 		}else if(category == 'Family'){
-			familyCollection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 2})
+			familyCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 2})
 		}else if(category == 'Work'){
-			workCollection.create({name: name, email: email, address: address, phone: phone, picture: picture, category_id: 3})
+			workCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 3})
 		}else{
 			console.log('ERROR')
 		}
