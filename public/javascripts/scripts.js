@@ -28,32 +28,13 @@ var ContactCollection = Backbone.Collection.extend({
 	model: ContactModel,
 	url: '/contacts',
 	
-	initialize: function(category_id){
+	initialize: function(){
 		console.log("contact collection Initialized")
-		this.category_id = category_id
-		//i want this collection to listen to changes to my Contact Model cat_id to switch from collection to collection
-		this.on("change:category_id", this.updateCat)
-	
-	},
-
-	parse: function(response){
-
-		var filtered = _.where(response, {category_id: this.category_id})
-		return filtered		
-
-	},
-
-	updateCat: function(){
-		this.fetch()
-		console.log('contact updated')
 	}
 
 })
 
-
-var friendsCollection = new ContactCollection(1)
-var familyCollection = new ContactCollection(2)
-var workCollection = new ContactCollection(3)
+var contactsCollection = new ContactCollection()
 
 
 //**VIEWS**----------------------------------------------
@@ -90,9 +71,10 @@ var ContactView = Backbone.View.extend({
 	updateContact: function(){
 		var name = this.$el.find('input.nameUpdate').val()
 		var address = this.$el.find('input.addressUpdate').val()
-		var phone = this.$el.find('input.phoneUpdate').val()
+		var phone_number = this.$el.find('input.phoneUpdate').val()
 		var email = this.$el.find('input.emailUpdate').val()
 		var picture = this.$el.find('input.pictureUpdate').val()
+		var category_id = this.$el.find('input.categoryUpdate').val()
 
 		if(name != ""){
 			this.model.set({
@@ -106,9 +88,9 @@ var ContactView = Backbone.View.extend({
 			})
 		};
 
-		if(phone != ""){
+		if(phone_number != ""){
 			this.model.set({
-			phone_number: phone
+			phone_number: phone_number
 			})
 		};
 
@@ -123,6 +105,12 @@ var ContactView = Backbone.View.extend({
 			picture: picture
 			})
 		};
+
+		if(category_id != ""){
+			this.model.set({
+				category_id: category_id
+			})
+		}
 
 		this.model.save()
 
@@ -149,23 +137,35 @@ var ListView = Backbone.View.extend({
 	
 	initialize: function(){
 		console.log('list view Initialized')
-		this.listenTo(this.collection, 'add', this.addOne)
+		this.category_id = this.attributes.category_id
+
+		this.listenTo(this.collection, 'all', this.render)
 		this.collection.fetch()
+
 	},
 
-	addOne: function(contact){
-		var contactView = new ContactView({model: contact})
-		contactView.render();
-		this.$el.append(contactView.el)
+	render: function(){
+		var self = this
+		this.$el.empty()
+
+		_.each(this.collection.models, function(contact){
+			
+			if (contact.attributes.category_id == self.category_id){
+				var contactView = new ContactView({model: contact})
+				contactView.render();
+				self.$el.append( contactView.el )
+			}
+		
+		})
+	
 	},
 
 })
 
-var friendsView = new ListView({collection: friendsCollection, el: $('ul.friends')})
 
-var familyView = new ListView({collection: familyCollection, el:$('ul.family')})
-var workView = new ListView({collection: workCollection, el: $('ul.work')})
-
+var friendsView = new ListView({collection: contactsCollection, el: $('ul.friends'), attributes: {category_id: 1}})
+var familyView = new ListView({collection: contactsCollection, el:$('ul.family'), attributes: {category_id: 2}})
+var workView = new ListView({collection: contactsCollection, el: $('ul.work'), attributes: {category_id: 3}})
 
 //**
 
@@ -194,11 +194,11 @@ var FormView = Backbone.View.extend({
 		if (name == "" || email == ""){
 			alert('missing field')
 		}else if(category == 'Friends'){
-			friendsCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 1})
+			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 1})
 		}else if(category == 'Family'){
-			familyCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 2})
+			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 2})
 		}else if(category == 'Work'){
-			workCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 3})
+			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 3})
 		}else{
 			console.log('ERROR')
 		}
@@ -212,12 +212,9 @@ var FormView = Backbone.View.extend({
 
 var formView = new FormView({el: $('.form')})
 
-
-// $('li.list-group-item').draggable();
-// $('ul.list-group').droppable({
-// 	drop: function(){
-// 		console.log(this)
-// 	}
-// })
+$('ul.list-group').sortable()
 
 
+/// drag and drop to switch categories
+/// update inpute on double click 
+/// router
