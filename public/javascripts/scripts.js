@@ -44,7 +44,7 @@ var ContactView = Backbone.View.extend({
 	tagName: "li",
 
 	attributes: {
-		class: "list-group-item"
+		class: "list-group-item contact-view"
 	},
 
 	template: _.template( $("#template").html() ),
@@ -223,12 +223,36 @@ var FormView = Backbone.View.extend({
 
 // var formView = new FormView({el: $('.form')})
 
+//TRYING TO MAKE DRAG AND DROP WORK 
+
+$('li.contact-view').on('dragover', function(event){
+	event.preventDefault();
+	event.stopPropagation();
+	$(this).addClass('dragging')
+})
+
+$('li.contact-view').on('dragleave', function(event){
+	event.preventDefault()
+	event.stopPropagation()
+	$(this).removeClass('dragging')
+})
+
+$('li.contact-view').on('drop', function(event){
+	event.preventDefault()
+	event.stopPropagation()
+	alert('dropped!')
+})
+
 $('ul.list-group').sortable({
 	connectWith: "ul",
 })
 
 $('ul.list-group').on('collectionUpdate', function(){
 	console.log('updated')
+})
+
+$('ul.friends').on('drop', function(e){
+	console.log(e)
 })
 
 // $('li.list-group-item').click(function(){
@@ -262,5 +286,4 @@ Backbone.history.start()
 //--------------------
 
 /// drag and drop to switch categories
-/// update inpute on double click 
-/// router
+/// update input on double click
