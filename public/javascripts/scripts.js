@@ -225,35 +225,59 @@ var FormView = Backbone.View.extend({
 
 //TRYING TO MAKE DRAG AND DROP WORK 
 
-$('li.contact-view').on('dragover', function(event){
-	event.preventDefault();
-	event.stopPropagation();
-	$(this).addClass('dragging')
-})
+// $('li.contact-view').sortable()
 
-$('li.contact-view').on('dragleave', function(event){
-	event.preventDefault()
-	event.stopPropagation()
-	$(this).removeClass('dragging')
-})
+	$('ul.list-group').sortable({
+		connectWith: 'ul.list-group'
+	}).disableSelection()
 
-$('li.contact-view').on('drop', function(event){
-	event.preventDefault()
-	event.stopPropagation()
-	alert('dropped!')
-})
+	$('ul.friends').droppable({
+		drop: function( event, ui ){
+			console.log(ui)//this is my list-item i just dropped
+			// console.log($(this).models)
+			// console.log(event.target)
+		}
+	})
 
-$('ul.list-group').sortable({
-	connectWith: "ul",
-})
+// $('ul.friends, ul.family, ul.work').sortable({
+// 	connectWith: 'ul.list-group'
+// }).disableSelection()
 
-$('ul.list-group').on('collectionUpdate', function(){
-	console.log('updated')
-})
 
-$('ul.friends').on('drop', function(e){
-	console.log(e)
-})
+// $('ul.list-group').on('sortupdate', function(event, ui) {
+
+// 	console.log(ui.item)
+
+// })
+// $('li.contact-view').on('dragover', function(event){
+// 	event.preventDefault();
+// 	event.stopPropagation();
+// 	$(this).addClass('dragging')
+// })
+
+// $('li.contact-view').on('dragleave', function(event){
+// 	event.preventDefault()
+// 	event.stopPropagation()
+// 	$(this).removeClass('dragging')
+// })
+
+// $('li.contact-view').on('drop', function(event){
+// 	event.preventDefault()
+// 	event.stopPropagation()
+// 	alert('dropped!')
+// })
+
+// $('ul.list-group').sortable({
+// 	connectWith: "ul",
+// })
+
+// $('ul.list-group').on('collectionUpdate', function(){
+// 	console.log('updated')
+// })
+
+// $('ul.friends').on('drop', function(e){
+// 	console.log(e)
+// })
 
 // $('li.list-group-item').click(function(){
 // 	$('ul.list-group').trigger('collectionUpdate')
@@ -286,4 +310,4 @@ Backbone.history.start()
 //--------------------
 
 /// drag and drop to switch categories
-/// update input on double click
+/// update input on double click to show input field
