@@ -54,7 +54,7 @@ var ContactView = Backbone.View.extend({
 		"click .glyphicon-pencil"	:"editContact",
 		"click .glyphicon-trash" :"deleteContact",
 		"click button.update" :"updateContact",
-		'drop': 'drop'
+		"updateCategory" : 'updateCategory'
 	},
 
 	viewContact: function(){
@@ -128,8 +128,11 @@ var ContactView = Backbone.View.extend({
 		this.model.save()
 	},
 
-	drop: function(){
-		console.log(this.model.id)
+	updateCategory: function(event, param){
+
+		var newCatID = parseInt(param)
+		this.model.set({category_id: newCatID})
+		this.model.save()
 
 	},
 
@@ -223,34 +226,16 @@ var FormView = Backbone.View.extend({
 });
 
 
-//TRYING TO MAKE DRAG AND DROP WORK 
-
-	// $('.friends, .family, .work').sortable({
-	// 	connectWith: '.list-group'
-	// }).disableSelection()
-
-	$('.list-group').on('sortupdate', function( event, ui ){
-		console.log(event)
-		ui.item.trigger('drop')
-	})
+//JQUERY SORTABLE TO TRIGGER MODEL FUNCTION----
 
 	$('.friends, .family, .work').sortable({
 		connectWith: '.list-group'
 	}).disableSelection()
 
-	// $('.list-group').on('sortupdate', function(event, ui){
-	// 	console.log(event)
-	// });
-
-	// $('li.contact-view').draggable({
-	// 	connectToSortable: '.list-group'
-	// }).disableSelection()
-
-	// $('li.contact-view').on('drop', function( event, ui){
-	// 	console.log(event)
-	// })
-
-
+	$('.list-group').on('sortreceive', function( event, ui ){
+		var newCat = event.target.id
+		ui.item.trigger('updateCategory',[newCat])
+	})
 
 
 ///ROUTER ------------------------------
@@ -278,5 +263,4 @@ Backbone.history.start()
 
 //--------------------
 
-/// drag and drop to switch categories
 /// update input on double click to show input field
