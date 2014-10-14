@@ -74,7 +74,7 @@ var ContactView = Backbone.View.extend({
 		var phone_number = this.$el.find('input.phoneUpdate').val()
 		var email = this.$el.find('input.emailUpdate').val()
 		var picture = this.$el.find('input.pictureUpdate').val()
-		var category_id = this.$el.find('input.categoryUpdate').val()
+		var category_id = this.$el.find('select.categoryUpdate').val()
 
 		if(name != ""){
 			this.model.set({
@@ -106,14 +106,25 @@ var ContactView = Backbone.View.extend({
 			})
 		};
 
-		if(category_id != ""){
+		if(category_id == 'Friends'){
 			this.model.set({
-				category_id: category_id
+				category_id: 1
+			})
+		};
+
+		if(category_id == 'Family'){
+			this.model.set({
+				category_id: 2
+			})
+		};
+
+		if(category_id == 'Work'){
+			this.model.set({
+				category_id: 3
 			})
 		}
 
 		this.model.save()
-
 	},
 
 	initialize: function(){
@@ -163,9 +174,9 @@ var ListView = Backbone.View.extend({
 })
 
 
-var friendsView = new ListView({collection: contactsCollection, el: $('ul.friends'), attributes: {category_id: 1}})
-var familyView = new ListView({collection: contactsCollection, el:$('ul.family'), attributes: {category_id: 2}})
-var workView = new ListView({collection: contactsCollection, el: $('ul.work'), attributes: {category_id: 3}})
+// var friendsView = new ListView({collection: contactsCollection, el: $('ul.friends'), attributes: {category_id: 1}})
+// var familyView = new ListView({collection: contactsCollection, el:$('ul.family'), attributes: {category_id: 2}})
+// var workView = new ListView({collection: contactsCollection, el: $('ul.work'), attributes: {category_id: 3}})
 
 //**
 
@@ -210,10 +221,45 @@ var FormView = Backbone.View.extend({
 });
 
 
-var formView = new FormView({el: $('.form')})
+// var formView = new FormView({el: $('.form')})
 
-$('ul.list-group').sortable()
+$('ul.list-group').sortable({
+	connectWith: "ul",
+})
 
+$('ul.list-group').on('collectionUpdate', function(){
+	console.log('updated')
+})
+
+// $('li.list-group-item').click(function(){
+// 	$('ul.list-group').trigger('collectionUpdate')
+// })
+ 
+
+///ROUTER ------------------------------
+
+var AppRouter = Backbone.Router.extend({
+routes: {
+	"": "index",
+	}, 
+})
+
+var router = new AppRouter();
+
+router.on("route:index", function(){
+	
+	var friendsView = new ListView({collection: contactsCollection, el: $('ul.friends'), attributes: {category_id: 1}})
+	var familyView = new ListView({collection: contactsCollection, el:$('ul.family'), attributes: {category_id: 2}})
+	var workView = new ListView({collection: contactsCollection, el: $('ul.work'), attributes: {category_id: 3}})
+
+	var formView = new FormView({el: $('.form')})
+
+})
+
+Backbone.history.start()
+
+
+//--------------------
 
 /// drag and drop to switch categories
 /// update inpute on double click 

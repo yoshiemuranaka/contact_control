@@ -3,6 +3,7 @@ require_relative './db/connection'
 require_relative './lib/category'
 require_relative './lib/contact'
 require 'active_support'
+# require'pry'
 
 after do
   ActiveRecord::Base.connection.close
@@ -12,6 +13,10 @@ before do
   content_type :json
 end
 
+get('/')do
+  content_type :html
+  File.read('./public/index.html')
+end
 
 get("/categories") do
   Category.all.to_json

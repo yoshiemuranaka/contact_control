@@ -1,5 +1,21 @@
+@import url(http://fonts.googleapis.com/css?family=Arimo|Lobster);
+
 ul{
 	outline-width: 2px;
 	outline-color: grey;
 	outline-style: solid
+}
+
+h5, h4{
+	/*color: DarkSlateGray;*/
+	font-family: 'Arimo', sans-serif;
+}
+
+h1{
+font-family: 'Lobster', cursive;
+/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+}
+
+p{
+	font-family: 'Arimo', sans-serif;
 }

@@ -15,7 +15,7 @@
 <div class='container'>
 
 	<div class='row'>
-		<header class='col-md-10'><h2>Contacts</h2></header>
+		<header class='col-md-10'><h1>Contacts</h1></header>
 	</div> 
 
 	<div class='row'>
@@ -56,7 +56,7 @@
 
 	<script id="template" type="text/template">
  		
- 		<p><%= name %></p>
+ 		<h5><%= name %></h5>
  		<span class='glyphicon glyphicon-eye-open'></span>
 		<span class='glyphicon glyphicon-pencil'></span>
  		<span class='glyphicon glyphicon-trash'></span></button>
@@ -74,7 +74,12 @@
  			<input class='phoneUpdate' placeholder='phone'></input>
  			<input class='emailUpdate' placeholder='email'></input>
  			<input class='pictureUpdate' placeholder='picture'></input>
- 			<input class='categoryUpdate' placeholder='category'></input>
+			<select class='categoryUpdate'>
+				<option>--</option>
+				<option class='friends'>Friends</option>
+				<option class='family'>Family</option>
+				<option class='work'>Work</option>
+			</select>
  			<button class='update'>Update</button>
 
  		</div>
