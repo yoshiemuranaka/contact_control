@@ -107,24 +107,6 @@ var ContactView = Backbone.View.extend({
 			})
 		};
 
-		if(category_id == 'Friends'){
-			this.model.set({
-				category_id: 1
-			})
-		};
-
-		if(category_id == 'Family'){
-			this.model.set({
-				category_id: 2
-			})
-		};
-
-		if(category_id == 'Work'){
-			this.model.set({
-				category_id: 3
-			})
-		}
-
 		this.model.save()
 	},
 

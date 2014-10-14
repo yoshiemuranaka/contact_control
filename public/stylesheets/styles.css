@@ -3,7 +3,9 @@
 ul{
 	outline-width: 2px;
 	outline-color: grey;
-	outline-style: solid
+	outline-style: solid;
+	height: 400px;
+	overflow: scroll;
 }
 
 h5, h4{
