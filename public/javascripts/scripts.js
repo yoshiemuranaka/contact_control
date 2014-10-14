@@ -53,7 +53,8 @@ var ContactView = Backbone.View.extend({
 		"click .glyphicon-eye-open" :"viewContact",
 		"click .glyphicon-pencil"	:"editContact",
 		"click .glyphicon-trash" :"deleteContact",
-		"click button.update" :"updateContact"
+		"click button.update" :"updateContact",
+		'drop': 'drop'
 	},
 
 	viewContact: function(){
@@ -127,6 +128,11 @@ var ContactView = Backbone.View.extend({
 		this.model.save()
 	},
 
+	drop: function(){
+		console.log(this.model.id)
+
+	},
+
 	initialize: function(){
 		console.log('ContactView Initialized')
 
@@ -174,10 +180,6 @@ var ListView = Backbone.View.extend({
 })
 
 
-// var friendsView = new ListView({collection: contactsCollection, el: $('ul.friends'), attributes: {category_id: 1}})
-// var familyView = new ListView({collection: contactsCollection, el:$('ul.family'), attributes: {category_id: 2}})
-// var workView = new ListView({collection: contactsCollection, el: $('ul.work'), attributes: {category_id: 3}})
-
 //**
 
 var FormView = Backbone.View.extend({
@@ -221,68 +223,35 @@ var FormView = Backbone.View.extend({
 });
 
 
-// var formView = new FormView({el: $('.form')})
-
 //TRYING TO MAKE DRAG AND DROP WORK 
 
-// $('li.contact-view').sortable()
+	// $('.friends, .family, .work').sortable({
+	// 	connectWith: '.list-group'
+	// }).disableSelection()
 
-	$('ul.list-group').sortable({
-		connectWith: 'ul.list-group'
-	}).disableSelection()
-
-	$('ul.friends').droppable({
-		drop: function( event, ui ){
-			console.log(ui)//this is my list-item i just dropped
-			// console.log($(this).models)
-			// console.log(event.target)
-		}
+	$('.list-group').on('sortupdate', function( event, ui ){
+		console.log(event)
+		ui.item.trigger('drop')
 	})
 
-// $('ul.friends, ul.family, ul.work').sortable({
-// 	connectWith: 'ul.list-group'
-// }).disableSelection()
+	$('.friends, .family, .work').sortable({
+		connectWith: '.list-group'
+	}).disableSelection()
+
+	// $('.list-group').on('sortupdate', function(event, ui){
+	// 	console.log(event)
+	// });
+
+	// $('li.contact-view').draggable({
+	// 	connectToSortable: '.list-group'
+	// }).disableSelection()
+
+	// $('li.contact-view').on('drop', function( event, ui){
+	// 	console.log(event)
+	// })
 
 
-// $('ul.list-group').on('sortupdate', function(event, ui) {
 
-// 	console.log(ui.item)
-
-// })
-// $('li.contact-view').on('dragover', function(event){
-// 	event.preventDefault();
-// 	event.stopPropagation();
-// 	$(this).addClass('dragging')
-// })
-
-// $('li.contact-view').on('dragleave', function(event){
-// 	event.preventDefault()
-// 	event.stopPropagation()
-// 	$(this).removeClass('dragging')
-// })
-
-// $('li.contact-view').on('drop', function(event){
-// 	event.preventDefault()
-// 	event.stopPropagation()
-// 	alert('dropped!')
-// })
-
-// $('ul.list-group').sortable({
-// 	connectWith: "ul",
-// })
-
-// $('ul.list-group').on('collectionUpdate', function(){
-// 	console.log('updated')
-// })
-
-// $('ul.friends').on('drop', function(e){
-// 	console.log(e)
-// })
-
-// $('li.list-group-item').click(function(){
-// 	$('ul.list-group').trigger('collectionUpdate')
-// })
- 
 
 ///ROUTER ------------------------------
 
