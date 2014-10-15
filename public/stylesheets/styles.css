@@ -21,3 +21,7 @@ font-family: 'Lobster', cursive;
 p{
 	font-family: 'Arimo', sans-serif;
 }
+
+.hide{
+	display: none;
+}

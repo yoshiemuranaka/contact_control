@@ -51,22 +51,49 @@ var ContactView = Backbone.View.extend({
 
 	events: {
 		"click .glyphicon-eye-open" :"viewContact",
-		"click .glyphicon-pencil"	:"editContact",
 		"click .glyphicon-trash" :"deleteContact",
 		"click button.update" :"updateContact",
+		"click .glyph-address": "showAddressInput",
+		"click .glyph-phone": "showPhoneInput",
+		"click .glyph-email": "showEmailInput",
+		"click .glyph-name": "hideNameInput",
+		"dblclick .name": "showNameInput",
 		"updateCategory" : 'updateCategory'
 	},
 
 	viewContact: function(){
-		this.$el.find('.view-details').toggle()
-	},
-
-	editContact: function(){
-		this.$el.find('.edit-details').toggle()
+		this.$el.find('.view-details').toggleClass('hide')
 	},
 
 	deleteContact: function(){
 		this.model.destroy()
+	},
+
+	showAddressInput: function(){
+		this.$el.find('.address').toggleClass('hide')
+		this.$el.find('.addressInput').toggleClass('hide')
+	},
+
+	showPhoneInput: function(){
+		this.$el.find('.phone').toggleClass('hide')
+		this.$el.find('.phoneInput').toggleClass('hide')
+	},
+
+	showEmailInput: function(){
+		this.$el.find('.email').toggleClass('hide')
+		this.$el.find('.emailInput').toggleClass('hide')
+	},
+
+	showNameInput: function(){
+		this.$el.find('.name').toggleClass('hide')
+		this.$el.find('.nameInput').toggleClass('hide')
+		this.$el.find('.glyph-name').toggleClass('hide')
+	},
+
+	hideNameInput: function(){
+		this.$el.find('.name').toggleClass('hide')
+		this.$el.find('.nameInput').toggleClass('hide')
+		this.$el.find('.glyph-name').toggleClass('hide')
 	},
 
 	updateContact: function(){
@@ -119,7 +146,6 @@ var ContactView = Backbone.View.extend({
 	},
 
 	initialize: function(){
-		console.log('ContactView Initialized')
 
 		this.listenTo(this.model, "change", this.render);
 		this.listenTo(this.model, "destroy remove", this.remove);
@@ -220,6 +246,7 @@ var FormView = Backbone.View.extend({
 	})
 
 
+
 ///ROUTER ------------------------------
 
 var AppRouter = Backbone.Router.extend({
@@ -246,5 +273,3 @@ Backbone.history.start()
 //--------------------
 
 /// update input on double click to show input field
-/// add profile image
-

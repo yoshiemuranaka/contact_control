@@ -31,10 +31,11 @@
 					<option class='work'>Work</option>
 				</select>
 				<span class='glyphicon glyphicon-plus'></span>
-			</div>
+		</div>
 	</div>
 	
 	<main class='row'>
+		
 		<div class='col-md-4'>
 			<header><h4>Friends</h4></header>
 			<ul class='list-group friends' id='1'></ul>
@@ -49,25 +50,42 @@
 			<header><h4>Work</h4></header>
 			<ul class='list-group work' id='3'></ul>
 		</div>
+	
 	</main>
 
 
-</div>
-
 	<script id="template" type="text/template">
  		
- 		<h5><%= name %></h5>
+ 		<h5>
+ 			<span class='name'><%= name %></span>
+ 			<input class='nameInput hide' placeholder=<%= name %>></input>
+ 			<span class='glyphicon glyphicon-pencil glyph-name hide'></span>
+ 		</h5>
  		<span class='glyphicon glyphicon-eye-open'></span>
-		<span class='glyphicon glyphicon-pencil'></span>
- 		<span class='glyphicon glyphicon-trash'></span></button>
+ 		<span class='glyphicon glyphicon-trash'></span>
  		
- 		<div style='display:none;' class='view-details'>
- 			<p>Address: <%= address %></p>
- 			<p>Phone: <%= phone_number %></p>
- 			<p>Email: <%= email %></p>
+ 		<div class='view-details hide'>
+ 			
+ 			<p>Address: 
+	 			<span class='address'><%= address %></span>
+	 			<input class='addressInput hide' placeholder=<%= address %>></input>
+	 			<span class='glyphicon glyphicon-pencil glyph-address'></span>
+	 		</p>
+ 			
+ 			<p>Phone: 
+ 				<span class='phone'><%= phone_number %></span>
+ 				<input class='phoneInput hide' placeholder=<%= phone_number %>></input>
+	 			<span class='glyphicon glyphicon-pencil glyph-phone'></span>
+ 			</p>
+ 			
+ 			<p>Email: <span class='email'><%= email %></span>
+ 			<input class='emailInput hide' placeholder=<%= email %>></input>
+	 		<span class='glyphicon glyphicon-pencil glyph-email'></span>
+	 		</p>
+ 		
  		</div>
 
- 		<div style='display:none;' class='edit-details'>
+ 		<div class='edit-details hide'>
  		
  			<input class='nameUpdate' placeholder='name'></input>
  			<input class='addressUpdate' placeholder='address'></input>
@@ -78,7 +96,6 @@
  			<button class='update'>Update</button>
 
  		</div>
-
 
 
 	</script>
