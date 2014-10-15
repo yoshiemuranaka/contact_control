@@ -3,7 +3,7 @@ require_relative './db/connection'
 require_relative './lib/category'
 require_relative './lib/contact'
 require 'active_support'
-# require'pry'
+require'pry'
 
 after do
   ActiveRecord::Base.connection.close
@@ -47,7 +47,8 @@ delete("/categories/:id") do
 end
 
 get("/contacts") do
-  Contact.all.to_json
+  contacts = Contact.all.order(name: :asc)
+  contacts.to_json
 end
 
 get("/contacts/:id") do
