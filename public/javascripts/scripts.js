@@ -58,6 +58,7 @@ var ContactView = Backbone.View.extend({
 		"click .glyph-email": "showEmailInput",
 		"click .glyph-name": "hideNameInput",
 		"dblclick .name": "showNameInput",
+		"keydown .addressInput": "updateAddress",
 		"updateCategory" : 'updateCategory'
 	},
 
@@ -94,6 +95,14 @@ var ContactView = Backbone.View.extend({
 		this.$el.find('.name').toggleClass('hide')
 		this.$el.find('.nameInput').toggleClass('hide')
 		this.$el.find('.glyph-name').toggleClass('hide')
+	},
+
+	updateAddress: function(e){
+		if(e.keyCode == 13 && this.$el.find('.addressInput').val() != ''){
+			var address = this.$el.find('.addressInput').val()
+			this.model.set({address: address})
+			this.model.save()
+		}
 	},
 
 	updateContact: function(){
