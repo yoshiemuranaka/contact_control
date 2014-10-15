@@ -1,3 +1,3 @@
 contacts
 ===========
-organize your contact with the simple single page app
+organize your contacts with the simple single page app
