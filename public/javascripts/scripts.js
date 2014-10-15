@@ -59,6 +59,9 @@ var ContactView = Backbone.View.extend({
 		"click .glyph-name": "hideNameInput",
 		"dblclick .name": "showNameInput",
 		"keydown .addressInput": "updateAddress",
+		"keydown .phoneInput": "updatePhone",
+		"keydown .emailInput": "updateEmail",
+		"keydown .nameInput": "updateName",
 		"updateCategory" : 'updateCategory'
 	},
 
@@ -101,6 +104,30 @@ var ContactView = Backbone.View.extend({
 		if(e.keyCode == 13 && this.$el.find('.addressInput').val() != ''){
 			var address = this.$el.find('.addressInput').val()
 			this.model.set({address: address})
+			this.model.save()
+		}
+	},
+
+	updatePhone: function(e){
+		if(e.keyCode == 13 && this.$el.find('.phoneInput').val() != ''){
+			var phone_number = this.$el.find('.phoneInput').val()
+			this.model.set({phone_number: phone_number})
+			this.model.save()
+		}
+	},
+
+	updateEmail: function(e){
+		if(e.keyCode == 13 && this.$el.find('.emailInput').val() != ''){
+			var email = this.$el.find('.emailInput').val()
+			this.model.set({email: email})
+			this.model.save()
+		}
+	},
+
+	updateName: function(e){
+		if(e.keyCode == 13 && this.$el.find('.nameInput').val() != ''){
+			var name = this.$el.find('.nameInput').val()
+			this.model.set({name: name})
 			this.model.save()
 		}
 	},
