@@ -1,5 +1,5 @@
 contact control
 ===========
-organize your contacts with contact control, a simple single page app.
+keeps track of your friends, family, and work contacts
 
 > ruby, backbone, jquery, postgreSQL

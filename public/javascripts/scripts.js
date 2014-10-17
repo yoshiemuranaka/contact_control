@@ -66,6 +66,7 @@ var ContactView = Backbone.View.extend({
 
 	viewContact: function(){
 		this.$el.find('.view-details').toggleClass('hide')
+
 	},
 
 	deleteContact: function(){
