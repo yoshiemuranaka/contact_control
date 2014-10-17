@@ -65,7 +65,8 @@ end
 get("/contacts") do
   user_id = session[:id]
 
-  contacts = Contact.where(user_id: user_id).order(name: :asc)
+  contacts = Contact.where(user_id: user_id)
+  contacts = contacts.order('name ASC')
   contacts.to_json
 
 end

@@ -13,7 +13,6 @@ var ContactModel = Backbone.Model.extend({
 		email: "",
 		address: "",
 		phone_number: "",
-		picture: "",
 		category_id: 1
 	}
 
@@ -132,47 +131,6 @@ var ContactView = Backbone.View.extend({
 		}
 	},
 
-	updateContact: function(){
-		var name = this.$el.find('input.nameUpdate').val()
-		var address = this.$el.find('input.addressUpdate').val()
-		var phone_number = this.$el.find('input.phoneUpdate').val()
-		var email = this.$el.find('input.emailUpdate').val()
-		var picture = this.$el.find('input.pictureUpdate').val()
-		var category_id = this.$el.find('select.categoryUpdate').val()
-
-		if(name != ""){
-			this.model.set({
-			name: name
-			})
-		};
-
-		if(address != ""){
-			this.model.set({
-			address: address
-			})
-		};
-
-		if(phone_number != ""){
-			this.model.set({
-			phone_number: phone_number
-			})
-		};
-
-		if(email != ""){
-			this.model.set({
-			email: email
-			})
-		};
-
-		if(picture != ""){
-			this.model.set({
-			picture: picture
-			})
-		};
-
-		this.model.save()
-	},
-
 	updateCategory: function(event, param){
 
 		var newCatID = parseInt(param)
@@ -246,19 +204,17 @@ var FormView = Backbone.View.extend({
 		var email = this.$el.find('input.email').val();
 		var address = this.$el.find('input.address').val();
 		var phone = this.$el.find('input.phone').val();
-		var picture = this.$el.find('input.picture').val();
 		var category = this.$el.find('select.category').val();
  	
-
 
 		if (name == "" || email == ""){
 			alert('missing field')
 		}else if(category == 'Friends'){
-			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 1})
+			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, category_id: 1})
 		}else if(category == 'Family'){
-			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 2})
+			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, category_id: 2})
 		}else if(category == 'Work'){
-			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, picture: picture, category_id: 3})
+			contactsCollection.create({name: name, email: email, address: address, phone_number: phone, category_id: 3})
 		}else{
 			console.log('ERROR')
 		}
