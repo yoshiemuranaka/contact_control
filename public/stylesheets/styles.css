@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Arimo|Lobster);
+@import url(http://fonts.googleapis.com/css?family=Arimo|Squada+One);
 
 ul{
 	outline-width: 2px;
@@ -8,20 +8,24 @@ ul{
 	overflow: scroll;
 }
 
-h5, h4{
-	/*color: DarkSlateGray;*/
-	font-family: 'Arimo', sans-serif;
+h4{
+	font-family: 'Squada One', sans-serif;
+	text-align: center;
 }
 
 h1{
-font-family: 'Lobster', cursive;
-/*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+font-family: 'Squada One', cursive;
+text-align: center;
 }
 
-p{
+h5, p{
 	font-family: 'Arimo', sans-serif;
 }
 
 .hide{
 	display: none;
+}
+
+.form{
+	text-align: center
 }

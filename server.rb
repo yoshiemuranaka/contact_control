@@ -2,8 +2,16 @@ require 'sinatra'
 require_relative './db/connection'
 require_relative './lib/category'
 require_relative './lib/contact'
+require_relative './lib/user'
 require 'active_support'
 require'pry'
+
+use Rack::Session::Cookie, { 
+  :key => 'rack.session',
+  :path => '/',
+  :secret => 'yolo 2014'
+}
+
 
 after do
   ActiveRecord::Base.connection.close
@@ -14,8 +22,16 @@ before do
 end
 
 get('/')do
-  content_type :html
-  File.read('./public/index.html')
+   content_type :html
+
+  if session[:id] == nil
+    user = User.create()
+    session[:id] = user.id
+    File.read('./public/index.html')
+  else
+    File.read('./public/index.html')
+  end
+
 end
 
 get("/categories") do
@@ -47,8 +63,11 @@ delete("/categories/:id") do
 end
 
 get("/contacts") do
-  contacts = Contact.all.order(name: :asc)
+  user_id = session[:id]
+
+  contacts = Contact.where(user_id: user_id).order(name: :asc)
   contacts.to_json
+
 end
 
 get("/contacts/:id") do
@@ -56,14 +75,16 @@ get("/contacts/:id") do
 end
 
 post("/contacts") do
+  user_id = session[:id]
   contact = Contact.create(contact_params(params))
+
+  contact.update({user_id: user_id})
   contact.to_json
 end
 
 put("/contacts/:id") do
   contact = Contact.find(params[:id])
   contact.update(contact_params(params))
-
   contact.to_json
 end
 
