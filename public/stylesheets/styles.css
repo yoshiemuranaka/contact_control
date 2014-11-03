@@ -29,3 +29,7 @@ h5, p{
 .form{
 	text-align: center
 }
+
+select{
+	background:none;
+}
